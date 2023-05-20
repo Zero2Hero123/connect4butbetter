@@ -9,7 +9,7 @@ const httpServer = createServer(app);
 
 const io = new Server(httpServer, {
     cors: {
-        origin: "http://127.0.0.1:3000",
+        origin: "http://0.0.0.0:3000",
         methods: ['GET','POST']
     }
 });
@@ -56,6 +56,6 @@ io.on("connection", (socket) => {
     
 //   });
 
-httpServer.listen(3001,() => {
+httpServer.listen(3001,'0.0.0.0',() => {
     console.log("listening!")
 });

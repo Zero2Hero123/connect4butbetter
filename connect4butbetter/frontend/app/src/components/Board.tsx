@@ -171,7 +171,7 @@ export default function Board({start, myColor, testMode = false}: {start: boolea
 
         </div>
         <h1 ref={resultRef} className="text-yellow-500 font-bold text-4xl" ></h1>
-        <div className="relative  border-8 border-blue-800 rounded-sm grid grid-cols-7 basis-[500px] w-[650px] bg-blue-700" >
+        <div className="relative border-8 border-blue-800 rounded-sm grid grid-cols-7 w-[43%] min-w-[400px] aspect-[5/4] bg-blue-700" >
            <div className="flex flex-col justify-end border border-blue-600">
                 {boardGrid[0].map((c,i) => <Chip key={i} color={c} /> )}
 
@@ -196,7 +196,7 @@ export default function Board({start, myColor, testMode = false}: {start: boolea
            </div>
 
 
-            <div className="absolute left-0  grid grid-cols-7 h-[500px] w-[640px]" >
+            <div className="absolute left-0  grid grid-cols-7 w-[100%] aspect-[5/4]" >
                 <div onClick={() => addChip(myColor,0)}  className="hover:cursor-pointer opacity-20 transition-all hover:bg-blue-600 "></div>
                 <div onClick={() => addChip(myColor,1)}  className="hover:cursor-pointer opacity-20 transition-all hover:bg-blue-600 "></div>
                 <div onClick={() => addChip(myColor,2)}  className="hover:cursor-pointer opacity-20 transition-all hover:bg-blue-600 "></div>

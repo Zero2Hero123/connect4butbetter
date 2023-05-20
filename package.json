@@ -1,0 +1,36 @@
+{
+  "name": "connect4-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "@vitejs/plugin-react": "^4.0.0",
+    "cors": "^2.8.5",
+    "data-uri-to-buffer": "^4.0.0",
+    "express": "^4.18.2",
+    "fetch-blob": "^3.1.5",
+    "formdata-polyfill": "^4.0.10",
+    "node-domexception": "^1.0.0",
+    "node-fetch": "^3.3.0",
+    "react": "^18.2.0",
+    "react-router-dom": "^6.11.2",
+    "socket.io": "^4.6.1",
+    "socket.io-client": "^4.6.1",
+    "vite": "^4.3.8",
+    "web-streams-polyfill": "^3.2.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Zero2Hero123/connect4butbetter.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Zero2Hero123/connect4butbetter/issues"
+  },
+  "homepage": "https://github.com/Zero2Hero123/connect4butbetter#readme"
+}
