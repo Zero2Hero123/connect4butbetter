@@ -19,7 +19,7 @@ export default function Home({ setName , setRoom}: Props) {
                 <input onChange={(e) => setName(e.target.value)} className="text-center text-xl rounded-md" placeholder="Display Name" type="text" />
                 <input onChange={(e) => setRoom(e.target.value)} className="text-center text-xl rounded-md" placeholder="Create/Join Code" type="text" />
                 <Link to='/game' >
-                    <button className="text-white font-medium bg-blue-700 rounded-md py-2 px-4" >Join</button>
+                    <button className="text-white font-medium text-xl bg-blue-700 rounded-md px-3 py-2" >Join</button>
                 </Link>
             </form>
         </div>
