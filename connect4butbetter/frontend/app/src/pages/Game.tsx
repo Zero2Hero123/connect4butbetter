@@ -16,9 +16,9 @@ interface Player {
 }
 
 export function Game({userName, roomId}: Props){
-    // if(!userName || !roomId){
-    //     return <Navigate replace to="/" />;
-    // }
+    if(!userName || !roomId){
+        return <Navigate replace to="/" />;
+    }
 
     let socket = useContext(socketCtx)
 
