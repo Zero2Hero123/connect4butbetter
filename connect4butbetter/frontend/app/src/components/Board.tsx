@@ -27,11 +27,12 @@ export default function Board({start, myColor, testMode = false}: {start: boolea
     },[myColor]) 
 
     function checkForWin(forColor: 'red' | 'yellow'): boolean{
-        // up-down 4s
+        const boardHeight: number = 6;
 
+        // up-down 4s
         for(let i = 0; i < boardGrid.length; i++){
             let countsOfSameColor = 0; // counts of same color
-            for(let j = 0; j < boardGrid[0].length; j++){
+            for(let j = 0; j < boardHeight; j++){
                 if(boardGrid[i][j] != forColor){
                     countsOfSameColor = 0
                 } else {
@@ -46,11 +47,12 @@ export default function Board({start, myColor, testMode = false}: {start: boolea
 
         // right-left 4s
 
-        for(let b = 0; b < boardGrid[0].length; b++){
-            let countsOfSameColor = 0; // counts of same color
-            for (let a = 0; a < boardGrid.length; a++) {
-                if(boardGrid[a][b] != forColor){
-                    countsOfSameColor = 0
+        for(let a = 0; a < boardHeight; a++){
+            let countsOfSameColor = 0;
+            for(let b = 0; b < boardGrid.length; b++){
+
+                if(boardGrid[b][a] != forColor){
+                    countsOfSameColor = 0;
                 } else {
                     countsOfSameColor++;
                 }
@@ -58,47 +60,35 @@ export default function Board({start, myColor, testMode = false}: {start: boolea
                 if(countsOfSameColor >= 4){
                     return true;
                 }
+
             }
         }
 
         // diagonal 4s
-        let z = 0;
-        let y = 0;
-        while(z < boardGrid.length && z < boardGrid[0].length){
-            let countsOfSameColor = 0; // counts of same color
+        for(let x = 0; x < boardGrid.length; x++){
+            for(let y = 0; y < boardHeight; y++){
 
-            if(boardGrid[z][y] != forColor){
-                countsOfSameColor = 0
-            } else {
-                countsOfSameColor++;
+                let diagonalIndicesRight: string[] = [];
+                let diagonalIndicesLeft: string[] = [];
+                
+                if(x >= 3){
+                    diagonalIndicesLeft = [boardGrid[x][y],boardGrid[x-1][y-1],boardGrid[x-2][y-2],boardGrid[x-3][y-3]]
+                }
+
+                if(x <= 4){
+                    diagonalIndicesRight = [boardGrid[x][y],boardGrid[x+1][y+1],boardGrid[x+2][y+2],boardGrid[x+3][y+3]]
+                }
+
+                let check1 = diagonalIndicesLeft.every((v) => v === forColor);
+                let check2 = diagonalIndicesRight.every((v) => v === forColor);
+
+                if(check1 || check2){
+                    return true;
+                }
+
             }
-
-            if(countsOfSameColor >= 4){
-                return true;
-            }
-
-            z++;
-            y++;
         }
 
-        // let c = 0;
-        // let d = 0;
-        // while(c < boardGrid.length && c < boardGrid[0].length){
-        //     let countsOfSameColor = 0; // counts of same color
-
-        //     if(boardGrid[c][d] != forColor){
-        //         let countsOfSameColor = 0
-        //     } else {
-        //         countsOfSameColor++;
-        //     }
-
-        //     if(countsOfSameColor >= 4){
-        //         return true;
-        //     }
-
-        //     c++;
-        //     d++;
-        // }
 
         return false
 
@@ -110,6 +100,7 @@ export default function Board({start, myColor, testMode = false}: {start: boolea
         if(boardGrid[column].length >= 6) return;
 
         if(!isMyTurn){
+            // alert("It's not your turn!")
             
             return;
         }
@@ -118,17 +109,21 @@ export default function Board({start, myColor, testMode = false}: {start: boolea
 
         currBoard[column].unshift(color);
 
-        updateBoard(currBoard)
-
         socket.emit('play-move',{color, column})
-        
-        setIsTurn(prev => !prev)
+
+        console.log(checkForWin(myColor))
 
         if(checkForWin(myColor)){
             socket.emit('win',myColor)
 
             setIsTurn(false)
         }
+
+        console.log(currBoard)
+
+        updateBoard(currBoard)
+        setIsTurn(prev => !prev)
+        console.log('done')
     }
 
 
