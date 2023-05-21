@@ -33,56 +33,62 @@ export default function Board({start, myColor, testMode = false}: {start: boolea
         for(let i = 0; i < boardGrid.length; i++){
             let countsOfSameColor = 0; // counts of same color
             for(let j = 0; j < boardHeight; j++){
-                if(boardGrid[i][j] != forColor){
+                if(boardGrid[i][j] !== forColor){
                     countsOfSameColor = 0
                 } else {
                     countsOfSameColor++;
                 }
 
                 if(countsOfSameColor >= 4){
+                    console.log('up-down win')
                     return true;
                 }
             }
         }
 
-        // right-left 4s
+        // right-left 4s broken issue
 
         for(let a = 0; a < boardHeight; a++){
             let countsOfSameColor = 0;
             for(let b = 0; b < boardGrid.length; b++){
 
-                if(boardGrid[b][a] != forColor){
+                if(boardGrid[b][a] !== forColor || boardGrid[b][a] === undefined){
                     countsOfSameColor = 0;
                 } else {
                     countsOfSameColor++;
                 }
 
                 if(countsOfSameColor >= 4){
+                    console.log('right-left win')
                     return true;
                 }
 
             }
+
         }
 
         // diagonal 4s
         for(let x = 0; x < boardGrid.length; x++){
             for(let y = 0; y < boardHeight; y++){
 
-                let diagonalIndicesRight: string[] = [];
-                let diagonalIndicesLeft: string[] = [];
+                let diagonalIndicesRight: string[] = [''];
+                let diagonalIndicesLeft: string[] = [''];
                 
                 if(x >= 3){
                     diagonalIndicesLeft = [boardGrid[x][y],boardGrid[x-1][y-1],boardGrid[x-2][y-2],boardGrid[x-3][y-3]]
                 }
 
-                if(x <= 4){
+                if(x <= 3){
                     diagonalIndicesRight = [boardGrid[x][y],boardGrid[x+1][y+1],boardGrid[x+2][y+2],boardGrid[x+3][y+3]]
                 }
 
                 let check1 = diagonalIndicesLeft.every((v) => v === forColor);
                 let check2 = diagonalIndicesRight.every((v) => v === forColor);
 
+
+
                 if(check1 || check2){
+                    console.log('diagonal win')
                     return true;
                 }
 
