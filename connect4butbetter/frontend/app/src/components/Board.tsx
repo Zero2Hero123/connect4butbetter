@@ -137,7 +137,9 @@ export default function Board({start, myColor, testMode = false}: {start: boolea
         socket.on('opp-won', (color) => {
             setIsTurn(false)
 
-            resultRef.current.textContent = "You Lost!";
+            if(resultRef.current){
+                resultRef.current.textContent = "You Lost!";
+            }
         })
 
         socket.on('opp-move', ({color,column}) => {
