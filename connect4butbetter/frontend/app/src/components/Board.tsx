@@ -166,7 +166,7 @@ export default function Board({start, myColor, testMode = false}: {start: boolea
     return <>
         <div >
 
-            {isMyTurn ? <Chip color={myColor}/>: <Chip color={oppColor} />} 
+            {isMyTurn ? <Chip asNormalImg={true} color={myColor}/>: <Chip asNormalImg={true} color={oppColor} />} 
             <h1 className='text-white font-medium text-3xl' >
                 {isMyTurn ? "Your Turn" : "Your Opponents Turn"}
             </h1>
