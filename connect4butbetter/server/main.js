@@ -3,6 +3,8 @@ const { createServer } = require("http");
 const { Server } = require("socket.io");
 const cors = require('cors')
 
+const checkForWin = require('./checkForWin')
+
 const app = express();
 app.use(cors())
 const httpServer = createServer(app);
@@ -39,12 +41,20 @@ io.on("connection", (socket) => {
   })
 
   socket.on('play-move', (moveObj) => {
-    socket.broadcast.emit('opp-move',moveObj)
-    socket.broadcast.emit('switch-turns')
-  })
+    socket.broadcast.emit('update-boards',moveObj.currBoard)
 
-  socket.on('win',color => {
-    socket.broadcast.emit('opp-won',color)
+    const didWin = checkForWin(moveObj.currBoard,moveObj.color)
+    socket.broadcast.emit('switch-turns')
+
+    console.log(moveObj.currBoard)
+
+    if(didWin){
+      socket.broadcast.emit('win-event',moveObj.color)
+      return;
+    }
+
+
+
   })
 
 });
