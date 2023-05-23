@@ -43,8 +43,11 @@ io.on("connection", (socket) => {
   socket.on('play-move', (moveObj) => {
     socket.broadcast.emit('update-boards',moveObj.currBoard)
 
+    console.time('checking for win')
+
     const didWin = checkForWin(moveObj.currBoard,moveObj.color)
-    socket.broadcast.emit('switch-turns')
+    console.timeEnd('checking for win')
+    console.log(didWin)
 
     console.log(moveObj.currBoard)
 
@@ -52,6 +55,7 @@ io.on("connection", (socket) => {
       socket.broadcast.emit('win-event',moveObj.color)
       return;
     }
+    socket.broadcast.emit('switch-turns')
 
 
 
