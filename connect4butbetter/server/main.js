@@ -40,7 +40,7 @@ io.on("connection", (socket) => {
     socket.broadcast.emit('update-opp-user',name)
   })
 
-  socket.on('play-move', (moveObj) => {
+  socket.on('play-move', (moveObj,callback) => {
     socket.broadcast.emit('update-boards',moveObj.currBoard)
 
     console.time('checking for win')
@@ -52,13 +52,18 @@ io.on("connection", (socket) => {
     console.log(moveObj.currBoard)
 
     if(didWin){
-      socket.broadcast.emit('win-event',moveObj.color)
+      socket.broadcast.emit('win-event',moveObj.color);
+      callback(true);
       return;
     }
     socket.broadcast.emit('switch-turns')
 
 
 
+  })
+
+  socket.on('leave', () => {
+    socket.disconnect();
   })
 
 });

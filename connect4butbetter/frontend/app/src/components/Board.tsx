@@ -154,7 +154,7 @@ export default function Board({start, myColor,showReturn, testMode = false}: Pro
             </div>
         </div>
         <div className=" h-20" >
-            <PowerUp name="Randomize" />
+            <PowerUp name="Randomize" board={boardGrid} />
         </div>
     
     </>

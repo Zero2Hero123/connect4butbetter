@@ -70,7 +70,7 @@ function checkForWin(board,color){
       }
     }
   
-    if(diagonals(board,'yellow')){
+    if(diagonals(board,color)){
       return true;
     }
     
