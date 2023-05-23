@@ -6,7 +6,7 @@ interface Props {
 }
 
 import { socketCtx } from "../App"
-import { SetStateAction, useContext, useEffect, useState } from "react"
+import { SetStateAction, useContext, useEffect, useState, useRef } from "react"
 import { Navigate } from "react-router-dom"
 
 interface Player {
@@ -26,6 +26,13 @@ export function Game({userName, roomId}: Props){
     const [numPlayers,setNumPlayers] = useState(1)
     const [opponent,setOpp] = useState<Player>({userName: '', userId: '', color: ''})
     const [myColor,setColor] = useState<'red' | 'yellow'>('red')
+
+    const returnRef = useRef<HTMLDialogElement>(null)
+
+    function leave(){
+        socket.emit('leave')
+
+    }
     
     useEffect(() => {
 
@@ -66,20 +73,28 @@ export function Game({userName, roomId}: Props){
 
 
     return <>
-  
-      <div className="flex gap-1 flex-col justify-center items-center h-screen w-screen bg-blue-500">
+
         
-          <div className='absolute right-[5%] top-[50%] flex flex-col items-center justify-center bg-blue-700 p-5 rounded-md' >
+        <dialog ref={returnRef} className="absolute top-[45%] bg-blue-800 w-[15%] min-w-[150px] h-[20%] flex flex-col justify-between">
+            <h1 className="text-white text-2xl text-center" >Game Ended</h1>
+            <a href="/">
+                <button onClick={leave} className="bg-blue-600 text-white px-3 py-1 font-medium hover:bg-blue-500" >Return</button>
+            </a>
+        </dialog>
+
+        <div className="flex gap-1 flex-col justify-center items-center h-screen w-screen bg-blue-500">
+            
+            <div className='absolute right-[5%] top-[50%] flex flex-col items-center justify-center bg-blue-700 p-5 rounded-md' >
             <h1 className='text-xl text-white font-bold' >{started ? 2 : "Waiting for other Player... "+ numPlayers}/2</h1>
             <h1 className='text-2xl text-white font-bold' >Room ID: {roomId}</h1>
             <div className="flex justify-center" >
                 < h1 className="text-2xl font-medium text-blue-300" >{userName} vs. {opponent.userName}</h1>
             </div>
-          </div>
+            </div>
 
         
-          <Board myColor={myColor} start={started} />
-      </div>
+            <Board myColor={myColor} start={started} showReturn={() => {  returnRef.current?.classList.add('z-10'); returnRef.current?.show(); }} />
+        </div>
     
     </>
 }

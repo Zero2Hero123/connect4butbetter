@@ -3,9 +3,16 @@ import Chip from "./chip"
 import PowerUp from "./PowerUp";
 import { socketCtx } from "../App";
 
+interface Props {
+    start: boolean,
+    myColor: 'red' | 'yellow',
+    testMode?: boolean,
+    showReturn: () => void
+
+}
 
 
-export default function Board({start, myColor, testMode = false}: {start: boolean, myColor: 'red' | 'yellow', testMode?: boolean}){
+export default function Board({start, myColor,showReturn, testMode = false}: Props){
 
     const [boardGrid,updateBoard] = useState<string[][]>(
         [
@@ -50,18 +57,31 @@ export default function Board({start, myColor, testMode = false}: {start: boolea
         updateBoard(currBoard)
         setIsTurn(prev => !prev)
 
-        socket.emit('play-move',{color, column,currBoard})
+        socket.emit('play-move',{color, column,currBoard},(won: boolean) => {
+            if(won){
+                if(resultRef.current){
+                    resultRef.current.textContent = "You Win!";
+                }
+                
+                showReturn();
+            }
+
+            setIsTurn(false)
+        })
         console.log('done')
     }
 
 
     useEffect(() => {
-        socket.on('win-event', (color) => {
-            setIsTurn(false)
-
+        socket.on('win-event', (winningColor: 'red' | 'yellow') => {
+            
             if(resultRef.current){
-                resultRef.current.textContent = color == myColor ? "You Win!" : "You Lost!";
+                resultRef.current.textContent = winningColor == myColor ? "You Win!" : "You Lost!";
             }
+
+            showReturn();
+
+            setIsTurn(false)
         })
 
 
@@ -133,9 +153,9 @@ export default function Board({start, myColor, testMode = false}: {start: boolea
                 <div onClick={() => addChip(myColor,6)}  className="hover:cursor-pointer opacity-20 transition-all hover:bg-blue-600 "></div>
             </div>
         </div>
-        {/* <div className=" h-20" >
-            <PowerUp name="Skip Turn" />
-        </div> */}
+        <div className=" h-20" >
+            <PowerUp name="Randomize" />
+        </div>
     
     </>
 }

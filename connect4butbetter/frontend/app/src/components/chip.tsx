@@ -13,7 +13,7 @@ export default function Chip({color, asNormalImg = false}: Props) {
     const colorSrc = color == 'yellow' ? YellowChip : RedChip
 
     
-    const style = asNormalImg ? "w-[100%] h-[90px] flex justify-center items-center" : "w-[100%] aspect-square flex justify-center items-center"
+    const style = asNormalImg ? "w-[100%] h-[90px] flex justify-center items-center" : "w-[100%] aspect-square flex justify-center items-center animate-insertChip"
 
     return <>
     
