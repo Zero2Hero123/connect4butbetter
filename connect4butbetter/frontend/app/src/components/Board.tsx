@@ -1,6 +1,8 @@
+import ReactDOM from "react"
 import { useEffect, useState, useContext, useMemo, useRef, useLayoutEffect } from "react"
 import Chip from "./chip"
 import PowerUp from "./PowerUp";
+import PowerUpLabel from "./PowerUpLabel";
 import { socketCtx } from "../App";
 
 interface Props {
@@ -26,7 +28,10 @@ export default function Board({start, myColor,showReturn, testMode = false}: Pro
         ]
     )
 
+
+
     const [isMyTurn, setIsTurn] = useState<boolean>()
+    const [lastPowerUp,setPowerUp] = useState<string>("")
     const resultRef = useRef<HTMLHeadingElement>(null)
 
     useEffect(() => {
@@ -71,6 +76,11 @@ export default function Board({start, myColor,showReturn, testMode = false}: Pro
         console.log('done')
     }
 
+    function showPowerUp(name: string){
+        setPowerUp(name)
+        console.log('e')
+    }
+
 
     useEffect(() => {
         socket.on('win-event', (winningColor: 'red' | 'yellow') => {
@@ -84,7 +94,7 @@ export default function Board({start, myColor,showReturn, testMode = false}: Pro
             setIsTurn(false)
         })
 
-
+        
 
         socket.on('update-board', (newBoard) => {
 
@@ -109,6 +119,7 @@ export default function Board({start, myColor,showReturn, testMode = false}: Pro
     },[myColor])
     
     return <>
+    <PowerUpLabel name={lastPowerUp} />
         <div >
 
             {isMyTurn ? <Chip asNormalImg={true} color={myColor}/>: <Chip asNormalImg={true} color={oppColor} />} 
@@ -153,8 +164,9 @@ export default function Board({start, myColor,showReturn, testMode = false}: Pro
                 <div onClick={() => addChip(myColor,6)}  className="hover:cursor-pointer opacity-20 transition-all hover:bg-blue-600 "></div>
             </div>
         </div>
-        <div className=" h-20" >
-            <PowerUp name="Randomize" board={boardGrid} />
+        <div className=" h-20 flex justify-center gap-2 w-[70%]" >
+            <PowerUp name="Randomize" board={boardGrid} setBoard={updateBoard} showPowerUpName={showPowerUp} />
+            <PowerUp name="Test" board={boardGrid} setBoard={updateBoard} showPowerUpName={showPowerUp} />
         </div>
     
     </>

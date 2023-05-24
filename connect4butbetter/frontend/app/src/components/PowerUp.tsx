@@ -4,14 +4,18 @@ import { socketCtx } from "../App";
 
 interface Props {
     name: string,
-    board: string[][]
+    board: string[][],
+    setBoard: React.Dispatch<React.SetStateAction<string[][]>>
+    showPowerUpName: (name: string) => void
 }
 
-export default function PowerUp({name,board}: Props){
+export default function PowerUp({name,board, setBoard, showPowerUpName}: Props){
 
     const socket = useContext(socketCtx)
 
     function use(){
+
+
         
         switch(name){
             case 'Randomize':
@@ -39,9 +43,13 @@ export default function PowerUp({name,board}: Props){
                     }
                 }
 
-                return newBoard;
+                setBoard(newBoard);
+                socket.emit('update',newBoard)
+
             break;
         }
+
+        showPowerUpName(name)
 
     }
 

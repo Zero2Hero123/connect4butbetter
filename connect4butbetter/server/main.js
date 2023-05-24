@@ -19,6 +19,8 @@ const io = new Server(httpServer, {
 io.on("connection", (socket) => {
   console.log(socket.id)
 
+
+  // listener for when a user joins a waiting user's room
   socket.on('join-room',async({roomId,userName}) => {
     socket.join(roomId)
 
@@ -36,21 +38,29 @@ io.on("connection", (socket) => {
       }
   })
 
+  // send opponents username
   socket.on('send-username',(name) => {
     socket.broadcast.emit('update-opp-user',name)
   })
 
+
+  // update boards after a powerup used
+  socket.on('update', (newBoard) => {
+    socket.broadcast.emit('update-boards',newBoard)
+  })
+
+  // play a move sent from client
   socket.on('play-move', (moveObj,callback) => {
     socket.broadcast.emit('update-boards',moveObj.currBoard)
 
     console.time('checking for win')
 
     const didWin = checkForWin(moveObj.currBoard,moveObj.color)
-    console.timeEnd('checking for win')
+/*  console.timeEnd('checking for win')
     console.log(didWin)
 
     console.log(moveObj.currBoard)
-
+    */
     if(didWin){
       socket.broadcast.emit('win-event',moveObj.color);
       callback(true);
@@ -62,6 +72,8 @@ io.on("connection", (socket) => {
 
   })
 
+
+  // when emitted, disconnect the ended game.
   socket.on('leave', () => {
     socket.disconnect();
   })
