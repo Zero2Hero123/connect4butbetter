@@ -31,12 +31,14 @@ export default function Board({start, myColor,showReturn, testMode = false}: Pro
 
 
     const [isMyTurn, setIsTurn] = useState<boolean>()
-    const [lastPowerUp,setPowerUp] = useState<string>("")
+    const [lastPowerUp,setPowerUp] = useState<string>("none")
     const resultRef = useRef<HTMLHeadingElement>(null)
+    const [canUsePowerUp,setCanUse] = useState<boolean>(false)
 
     useEffect(() => {
         setIsTurn(myColor == 'yellow')
-    },[myColor]) 
+        setCanUse(myColor == 'yellow')
+    },[myColor])
 
     const socket = useContext(socketCtx)
 
@@ -61,6 +63,7 @@ export default function Board({start, myColor,showReturn, testMode = false}: Pro
 
         updateBoard(currBoard)
         setIsTurn(prev => !prev)
+        setCanUse(prev => !prev)
 
         socket.emit('play-move',{color, column,currBoard},(won: boolean) => {
             if(won){
@@ -78,7 +81,6 @@ export default function Board({start, myColor,showReturn, testMode = false}: Pro
 
     function showPowerUp(name: string){
         setPowerUp(name)
-        console.log('e')
     }
 
 
@@ -103,7 +105,8 @@ export default function Board({start, myColor,showReturn, testMode = false}: Pro
 
         socket.on('switch-turns', () => {
 
-            setIsTurn((prev) => !prev) 
+            setIsTurn((prev) => !prev) // flip turns
+            setCanUse(prev => !prev) // flip can-use-power-ups
 
         })
 
@@ -165,8 +168,8 @@ export default function Board({start, myColor,showReturn, testMode = false}: Pro
             </div>
         </div>
         <div className=" h-20 flex justify-center gap-2 w-[70%]" >
-            <PowerUp name="Randomize" board={boardGrid} setBoard={updateBoard} showPowerUpName={showPowerUp} />
-            <PowerUp name="Test" board={boardGrid} setBoard={updateBoard} showPowerUpName={showPowerUp} />
+            <PowerUp name="Randomize" canUse={canUsePowerUp} board={boardGrid} setBoard={updateBoard} showPowerUpName={showPowerUp} />
+            <PowerUp name="Test" canUse={canUsePowerUp} board={boardGrid} setBoard={updateBoard} showPowerUpName={showPowerUp} />
         </div>
     
     </>

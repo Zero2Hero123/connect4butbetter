@@ -27,12 +27,14 @@ export function Game({userName, roomId}: Props){
     const [opponent,setOpp] = useState<Player>({userName: '', userId: '', color: ''})
     const [myColor,setColor] = useState<'red' | 'yellow'>('red')
 
+
     const returnRef = useRef<HTMLDialogElement>(null)
 
     function leave(){
         socket.emit('leave')
 
     }
+
     
     useEffect(() => {
 
@@ -84,12 +86,12 @@ export function Game({userName, roomId}: Props){
 
         <div className="flex gap-1 flex-col justify-center items-center h-screen w-screen bg-blue-500">
             
-            <div className='absolute right-[5%] top-[50%] flex flex-col items-center justify-center bg-blue-700 p-5 rounded-md' >
-            <h1 className='text-xl text-white font-bold' >{started ? 2 : "Waiting for other Player... "+ numPlayers}/2</h1>
-            <h1 className='text-2xl text-white font-bold' >Room ID: {roomId}</h1>
-            <div className="flex justify-center" >
-                < h1 className="text-2xl font-medium text-blue-300" >{userName} vs. {opponent.userName}</h1>
-            </div>
+            <div className='absolute top-[10px] lg:right-[5%] lg:top-[50%] flex flex-col items-center justify-center bg-blue-700 p-5 rounded-md' >
+                <h1 className='text-xl text-white font-bold' >{started ? 2 : "Waiting for other Player... "+ numPlayers}/2</h1>
+                <h1 className='text-2xl text-white font-bold' >Room ID: {roomId}</h1>
+                <div className="flex justify-center" >
+                    < h1 className="text-2xl font-medium text-blue-300" >{userName} vs. {opponent.userName}</h1>
+                </div>
             </div>
 
         

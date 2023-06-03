@@ -11,6 +11,8 @@ export default function PowerUpLabel({name}: Props){
     const divRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
+        if(name === 'none') return;
+
         divRef.current?.classList.toggle('hidden')
         divRef.current?.classList.toggle('animate-growIn');
         console.log(name)
