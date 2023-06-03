@@ -1,8 +1,11 @@
 import ReactDOM from "react"
 import { useEffect, useState, useContext, useMemo, useRef, useLayoutEffect } from "react"
+
+// components
 import Chip from "./chip"
 import PowerUp from "./PowerUp";
 import PowerUpLabel from "./PowerUpLabel";
+
 import { socketCtx } from "../App";
 
 interface Props {

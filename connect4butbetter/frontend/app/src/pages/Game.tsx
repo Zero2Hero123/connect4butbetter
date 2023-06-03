@@ -1,18 +1,20 @@
 import Board from "../components/Board"
-
-interface Props {
-    userName: string,
-    roomId: string | number
-}
+import ChatBox from "../components/ChatBox"
 
 import { socketCtx } from "../App"
 import { SetStateAction, useContext, useEffect, useState, useRef } from "react"
 import { Navigate } from "react-router-dom"
 
+
 interface Player {
     userName: string,
     userId: string,
     color: 'red' | 'yellow' | ''
+}
+
+interface Props {
+    userName: string,
+    roomId: string | number
 }
 
 export function Game({userName, roomId}: Props){
@@ -94,7 +96,7 @@ export function Game({userName, roomId}: Props){
                 </div>
             </div>
 
-        
+            <ChatBox displayName={userName} />
             <Board myColor={myColor} start={started} showReturn={() => {  returnRef.current?.classList.add('z-10'); returnRef.current?.show(); }} />
         </div>
     
