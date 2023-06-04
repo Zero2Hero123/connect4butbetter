@@ -174,7 +174,7 @@ export default function Board({start, myColor,showReturn, testMode = false}: Pro
             </div>
         </div>
         <div className=" h-20 flex justify-center gap-2 w-[70%]" >
-            <PowerUp name="Randomize" canUse={canUsePowerUp} board={boardGrid} setBoard={updateBoard} showPowerUpName={showPowerUp} />
+            {/* <PowerUp name="Randomize" canUse={canUsePowerUp} board={boardGrid} setBoard={updateBoard} showPowerUpName={showPowerUp} /> */}
         </div>
     
     </>

@@ -3,6 +3,8 @@ const { createServer } = require("http");
 const { Server } = require("socket.io");
 const cors = require('cors')
 
+require('dotenv').config()
+
 const checkForWin = require('./checkForWin')
 
 const app = express();
@@ -11,7 +13,7 @@ const httpServer = createServer(app);
 
 const io = new Server(httpServer, {
     cors: {
-        origin: "http://localhost:3000",
+        origin: ["http://localhost:3000",process.env.PROD_URL],
         methods: ['GET','POST']
     }
 });
