@@ -23,13 +23,13 @@ module.exports = {
         },
         slide: {
           '0%': {translate: '0 0'},
-          '100%': {translate: 'translate 5000px 5000px'}
+          '100%': {translate: '-5000px -5000px'}
         }
       },
       animation: {
         insertChip: 'insert 1s ease-in-out',
         growIn: 'growIn 4s ease-in-out forwards',
-        slide: 'slide 60s linear infinite'
+        slide: 'slide 400s linear infinite'
       },
       backgroundImage: {
         'chip-pattern': "url('/assets/pattern.png')"

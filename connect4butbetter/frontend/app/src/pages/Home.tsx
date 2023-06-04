@@ -14,8 +14,12 @@ export default function Home({ setName , setRoom}: Props) {
 
 
     return <>
-        <div className="flex gap-20 flex-col justify-center items-center bg-blue-600 h-screen w-screen overflow-hidden">
-            {/* <div className=" absolute bg-chip-pattern bg-repeat animate-slide h-[1000vh] w-[1000vw]" ></div> */}
+        <div className="flex gap-20 flex-col justify-center items-center bg-blue-600 h-screen w-screen">
+
+            <div className=" absolute w-screen h-screen overflow-hidden" >
+                <div className="bg-chip-pattern bg-repeat animate-slide h-[1000vh] w-[1000vw] animate-slide" ></div>
+            </div>
+
             <h1 className="text-5xl text-white font-medium z-10" >Connect4 But Better!</h1>
             <form className="flex bg-blue-500 p-10 rounded-md flex-col justify-center items-center gap-4 z-10" >
                 <input onChange={(e) => setName(e.target.value)} className="text-center text-xl rounded-md" placeholder="Display Name" type="text" />
