@@ -96,7 +96,7 @@ export function Game({userName, roomId}: Props){
                 </div>
             </div>
 
-            <ChatBox displayName={userName} />
+            <ChatBox myColor={myColor} displayName={userName} />
             <Board myColor={myColor} start={started} showReturn={() => {  returnRef.current?.classList.add('z-10'); returnRef.current?.show(); }} />
         </div>
     

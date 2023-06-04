@@ -72,6 +72,11 @@ io.on("connection", (socket) => {
 
   })
 
+  // CHAT MESSAGING
+  socket.on('new-message',(msg) => {
+    socket.broadcast.emit("opp-new-message",msg)
+  })
+
 
   // when emitted, disconnect the ended game.
   socket.on('leave', () => {

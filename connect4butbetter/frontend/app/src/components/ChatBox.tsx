@@ -4,13 +4,24 @@ import { FormEvent, useContext, useEffect, useRef, useState } from "react";
 import { socketCtx } from "../App";
 
 interface Props {
-    displayName: string
+    displayName: string,
+    myColor: 'red' | 'yellow'
 }
 
-export default function ChatBox({displayName}: Props){
+interface Message {
+    author: string,
+    color: 'red' | 'yellow',
+    content: string
+}
+
+import ChatMessage from "./ChatMessage";
+
+export default function ChatBox({displayName, myColor}: Props){
 
     const chatForm = useRef<HTMLFormElement>(null)
     const msgInput = useRef<HTMLInputElement>(null)
+
+    const [messages,setMessages] = useState<Message[]>([])
 
     const socket = useContext(socketCtx)
 
@@ -19,9 +30,21 @@ export default function ChatBox({displayName}: Props){
             e.preventDefault()
 
             const message = msgInput.current?.value;
+            
+            const obj: Message = {author: displayName,color: myColor,content: message ?? "None"}
 
-            socket.emit('chat-msg', {author: displayName,content: message})
+            socket.emit('new-message', obj)
+
+            setMessages(prev => [...prev,obj])
         })
+
+        socket.on('opp-new-message',(newMessage) => {
+
+            setMessages(prev => [...prev,newMessage])
+
+        })
+
+        
     },[])
 
     return <>
@@ -30,7 +53,7 @@ export default function ChatBox({displayName}: Props){
             <p className="text-center text-blue-200" >Chat</p>
             
             <div className=" w-[95%] grow bg-blue-800">
-
+                {messages.map((m) => <ChatMessage author={m.author} content={m.content} color={m.color} />)}
             </div>
 
             <form ref={chatForm} className="flex flex-col justify-end items-center w-[95%] bg-blue-800 text-white" >
