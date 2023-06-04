@@ -2,7 +2,6 @@
 
 import { FormEvent, useContext, useEffect, useRef, useState } from "react";
 import { socketCtx } from "../App";
-
 interface Props {
     displayName: string,
     myColor: 'red' | 'yellow'
@@ -26,17 +25,29 @@ export default function ChatBox({displayName, myColor}: Props){
     const socket = useContext(socketCtx)
 
     useEffect(() => {
-        chatForm?.current?.addEventListener("submit",(e) => {
-            e.preventDefault()
+        console.log(messages)
+    },[messages])
 
-            const message = msgInput.current?.value;
-            
-            const obj: Message = {author: displayName,color: myColor,content: message ?? "None"}
+    function addNewMessage(e: FormEvent){
+        e.preventDefault()
 
-            socket.emit('new-message', obj)
+        const message = msgInput.current?.value;
+        
+        const obj: Message = {author: displayName,color: myColor,content: message ?? "None"}
 
-            setMessages(prev => [...prev,obj])
-        })
+        if(msgInput.current){
+            msgInput.current.value = ""
+        }
+
+        socket.emit('new-message', obj)
+
+        setMessages(prev => [...prev,obj])
+    }
+
+    useEffect(() => {
+
+        // chatForm?.current?.addEventListener("submit",addNewMessage)
+
 
         socket.on('opp-new-message',(newMessage) => {
 
@@ -44,7 +55,9 @@ export default function ChatBox({displayName, myColor}: Props){
 
         })
 
-        
+        // return () => {
+        //     chatForm?.current?.removeEventListener("submit",addNewMessage)
+        // }
     },[])
 
     return <>
@@ -52,11 +65,11 @@ export default function ChatBox({displayName, myColor}: Props){
         <div className="absolute rounded-md left-[3%] bg-blue-700 h-[250px] w-[400px] flex flex-col items-center" >
             <p className="text-center text-blue-200" >Chat</p>
             
-            <div className=" w-[95%] grow bg-blue-800">
-                {messages.map((m) => <ChatMessage author={m.author} content={m.content} color={m.color} />)}
+            <div className=" w-[95%] grow bg-blue-800 overflow-y-scroll">
+                {messages.map((m,i) => <ChatMessage key={i} author={m.author == displayName ? "You" : m.author} content={m.content} color={m.color} />)}
             </div>
 
-            <form ref={chatForm} className="flex flex-col justify-end items-center w-[95%] bg-blue-800 text-white" >
+            <form onSubmit={addNewMessage} ref={chatForm} className="flex flex-col justify-end items-center w-[95%] bg-blue-800 text-white" >
                 <input ref={msgInput} className=" rounded-md h-[50px] w-[100%] bg-blue-700 text-white" placeholder="Send a Message" type="text" />
             </form>
         </div>

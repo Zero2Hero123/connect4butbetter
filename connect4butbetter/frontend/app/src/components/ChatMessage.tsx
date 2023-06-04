@@ -1,3 +1,4 @@
+import { useMemo } from "react"
 
 
 interface Props {
@@ -9,10 +10,14 @@ interface Props {
 export default function ChatMessage({author,color,content}: Props){
 
 
+    let authorColor = useMemo(() => {
+        return color == 'yellow' ? 'text-yellow-500' : 'text-red-500';
+    },[color])
+
     return <>
     
-        <div className="bg-blue-800" >
-            <span className={color} >{author}</span> <span>{content}</span>
+        <div className=" text-white" >
+            <span className={`font-medium ${authorColor}`} >{author}</span> <span>{content}</span>
         </div>
     
     </>
