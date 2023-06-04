@@ -7,7 +7,8 @@ import { Routes, Route } from 'react-router-dom'
 import { Game } from './pages/Game'
 import Home from './pages/Home'
 
-require('dotenv').config()
+import dotenv from 'dotenv'
+dotenv.config()
 
 
 const socket = io(process.env.SERVER_URL ?? "http://localhost:3001/")
