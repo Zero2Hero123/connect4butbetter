@@ -7,9 +7,10 @@ import { Routes, Route } from 'react-router-dom'
 import { Game } from './pages/Game'
 import Home from './pages/Home'
 
+require('dotenv').config()
 
 
-const socket = io("http://localhost:3001/")
+const socket = io(process.env.SERVER_URL ?? "http://localhost:3001/")
 
 export const socketCtx = createContext<typeof socket>(socket)
 function App() {
