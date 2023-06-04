@@ -14,6 +14,18 @@ export default function PowerUp({name,board, setBoard, showPowerUpName,canUse}: 
 
     const socket = useContext(socketCtx)
 
+
+    useEffect(() => {
+
+        socket.on('opp-used',(powerUpName) => {
+            showPowerUpName(powerUpName)
+            setTimeout(() => {
+                showPowerUpName("none")
+            },4500)
+        })
+
+    },[])
+
     function use(){
 
         if(!canUse) return;
@@ -51,6 +63,7 @@ export default function PowerUp({name,board, setBoard, showPowerUpName,canUse}: 
         }
 
         showPowerUpName(name)
+        socket.emit('power-up-used',name)
         setTimeout(() => {
             showPowerUpName("none")
         },4500)

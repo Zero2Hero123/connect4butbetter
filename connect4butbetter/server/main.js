@@ -72,6 +72,11 @@ io.on("connection", (socket) => {
 
   })
 
+  // POWER-UPS
+  socket.on('power-up-used', (name) => {
+    socket.broadcast.emit('opp-used',name)
+  })
+
   // CHAT MESSAGING
   socket.on('new-message',(msg) => {
     socket.broadcast.emit("opp-new-message",msg)

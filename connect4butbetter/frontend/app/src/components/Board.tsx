@@ -84,6 +84,9 @@ export default function Board({start, myColor,showReturn, testMode = false}: Pro
 
     function showPowerUp(name: string){
         setPowerUp(name)
+
+        setIsTurn(prev => !prev)
+        setCanUse(prev => !prev)
     }
 
 
@@ -91,7 +94,7 @@ export default function Board({start, myColor,showReturn, testMode = false}: Pro
         socket.on('win-event', (winningColor: 'red' | 'yellow') => {
             
             if(resultRef.current){
-                resultRef.current.textContent = winningColor == myColor ? "You Win!" : "You Lost!";
+                resultRef.current.textContent = "You Lost!";
             }
 
             showReturn();
@@ -108,7 +111,7 @@ export default function Board({start, myColor,showReturn, testMode = false}: Pro
 
         socket.on('switch-turns', () => {
 
-            setIsTurn((prev) => !prev) // flip turns
+            setIsTurn(prev => !prev) // flip turns
             setCanUse(prev => !prev) // flip can-use-power-ups
 
         })
