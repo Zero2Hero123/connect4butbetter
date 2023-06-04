@@ -8,7 +8,7 @@ import { Game } from './pages/Game'
 import Home from './pages/Home'
 
 
-const socket = io("http://localhost:3001/")
+const socket = io("https://connect4-app-updated.therealzero2hero.repl.co/")
 
 export const socketCtx = createContext<typeof socket>(socket)
 function App() {
