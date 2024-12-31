@@ -13,7 +13,7 @@ const httpServer = createServer(app);
 
 const io = new Server(httpServer, {
     cors: {
-        origin: ["http://localhost:3000",process.env.PROD_URL],
+        origin: ["http://localhost:3000",process.env.PROD_URL,"https://connect4butbetter.vercel.app"],
         methods: ['GET','POST']
     }
 });
