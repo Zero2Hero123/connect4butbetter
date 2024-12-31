@@ -8,7 +8,7 @@ import { Game } from './pages/Game'
 import Home from './pages/Home'
 
 
-const socket = io("https://connect4-app-updated.therealzero2hero.repl.co/")
+const socket = io(import.meta.env.VITE_BACKEND_URL as string)
 
 export const socketCtx = createContext<typeof socket>(socket)
 function App() {
