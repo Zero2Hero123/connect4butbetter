@@ -98,7 +98,7 @@ io.on("connection", (socket) => {
 
 //     io.to(room).emit('new-join',{userName: userName})
     
-//   });
+//   }); 
 
 httpServer.listen(3001,() => {
     console.log("listening!")
